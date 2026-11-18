@@ -1,34 +1,87 @@
-import type { Nft } from "@/api/contracts"
+import type { Cart, Nft, Order, User, Wallet } from "@/api/contracts"
 import { nftFixtures } from "./fixtures/nfts"
+import { userFixtures, walletFixtures } from "./fixtures/users"
+import { hashPassword } from "./lib/crypto"
+import { scenarioPresets, type ScenarioConfig } from "./scenario-presets"
 
-// Mude o número da versão se alterar a estrutura dos dados de exemplo.
-const STORAGE_KEY = "kurio:mock-db:v1"
+// Mude o número se alterar a estrutura dos dados de exemplo.
+const STORAGE_KEY = "kurio:mock-db:v2"
+
+export interface StoredUser extends User {
+    passwordHash: string
+}
+
+export interface StoredSession {
+    token: string
+    userId: string
+    expiresAt: string
+}
+
+export interface StoredOrder extends Order {
+    userId: string
+}
+
+export interface IdempotencyRecord {
+    fingerprint: string
+    orderId: string
+}
 
 export interface DbState {
     nfts: Nft[]
+    users: StoredUser[]
+    sessions: StoredSession[]
+    favorites: Record<string, string[]>
+    wallets: Record<string, Wallet[]>
+    carts: Record<string, Cart>
+    orders: StoredOrder[]
+    idempotency: Record<string, IdempotencyRecord>
+    scenario: ScenarioConfig
 }
 
-function seed(): DbState {
-    return { nfts: structuredClone(nftFixtures) }
+async function seed(): Promise<DbState> {
+    const users: StoredUser[] = await Promise.all(
+        userFixtures.map(async ({ password, ...user }) => ({
+            ...user,
+            passwordHash: await hashPassword(password),
+        })),
+    )
+    return {
+        nfts: structuredClone(nftFixtures),
+        users,
+        sessions: [],
+        favorites: { user_ana: ["emerald-ape-042"], user_bruno: [] },
+        wallets: structuredClone(walletFixtures),
+        carts: {},
+        orders: [],
+        idempotency: {},
+        scenario: structuredClone(scenarioPresets.default),
+    }
 }
 
-function load(): DbState {
+function load(): DbState | null {
     try {
         const raw = localStorage.getItem(STORAGE_KEY)
-        if (raw) return JSON.parse(raw) as DbState
+        return raw ? (JSON.parse(raw) as DbState) : null
     } catch {
-        // sem localStorage: segue com o estado inicial em memória
+        return null // sem localStorage ou JSON inválido: recomeça do estado inicial
     }
-    return seed()
 }
 
-let state: DbState = load()
+let state: DbState | null = null
+
+export async function initDb(): Promise<void> {
+    if (state) return
+    state = load() ?? (await seed())
+    commit()
+}
 
 export function getState(): DbState {
+    if (!state) throw new Error("Banco de mocks não inicializado. Chame initDb() antes.")
     return state
 }
 
 export function commit(): void {
+    if (!state) return
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
     } catch {
@@ -36,7 +89,7 @@ export function commit(): void {
     }
 }
 
-export function resetDb(): void {
-    state = seed()
+export async function resetDb(): Promise<void> {
+    state = await seed()
     commit()
 }

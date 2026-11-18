@@ -17,3 +17,5 @@ export const NETWORKS: { slug: Network; label: string }[] = [
     { slug: "polygon", label: "Polygon" },
     { slug: "solana", label: "Solana" },
 ]
+
+export const HERO_IMAGE = "/images/nfts/monkey-green-jacket.png"

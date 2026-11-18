@@ -2,18 +2,23 @@ import Decimal from "decimal.js"
 import { CATEGORIES, NETWORKS } from "@/api/catalog"
 import type { Edition, Nft } from "@/api/contracts"
 
-const ext = "png" // troque para "webp" se exportar nesse formato
+const IMG = {
+    purple: "/images/nfts/gorilla-purple-hoodie.png",
+    teal: "/images/nfts/gorilla-teal-turtleneck.png",
+    green: "/images/nfts/monkey-green-jacket.png",
+    headphones: "/images/nfts/monkey-headphones.png",
+}
 
 const BASE = [
-    { slug: "emerald-ape", name: "Emerald Ape", num: 42, price: "1.19", rare: true, attrs: ["Óculos", "Esmeralda", "Raro"] },
-    { slug: "sage-nomad", name: "Sage Nomad", num: 9, price: "1.69", rare: false, attrs: ["Casaco", "Verde", "Comum"] },
-    { slug: "neon-vessel", name: "Neon Vessel", num: 552, price: "1.99", old: "2.29", rare: true, attrs: ["Óculos", "Neon", "Raro"] },
-    { slug: "cosmic-bloom", name: "Cosmic Bloom", num: 118, price: "1.29", rare: false, attrs: ["Chapéu", "Roxo", "Comum"] },
-    { slug: "violet-nomad", name: "Violet Nomad", num: 314, price: "1.39", rare: false, attrs: ["Chapéu", "Violeta", "Comum"] },
-    { slug: "ivory-baron", name: "Ivory Baron", num: 88, price: "1.79", rare: false, attrs: ["Terno", "Marfim", "Comum"] },
-    { slug: "golden-beat", name: "Golden Beat", num: 207, price: "0.99", rare: false, attrs: ["Fone", "Dourado", "Comum"] },
-    { slug: "golden-frequency", name: "Golden Frequency", num: 71, price: "0.59", rare: false, attrs: ["Fone", "Dourado", "Comum"] },
-    { slug: "golden-signal", name: "Golden Signal", num: 160, price: "0.39", rare: false, attrs: ["Fone", "Dourado", "Comum"] },
+    { slug: "emerald-ape", name: "Emerald Ape", num: 42, price: "1.19", rare: true, image: IMG.green, attrs: ["Óculos", "Esmeralda", "Raro"] },
+    { slug: "sage-nomad", name: "Sage Nomad", num: 9, price: "1.69", rare: false, image: IMG.purple, attrs: ["Casaco", "Verde", "Comum"] },
+    { slug: "neon-vessel", name: "Neon Vessel", num: 552, price: "1.99", old: "2.29", rare: true, image: IMG.teal, attrs: ["Óculos", "Neon", "Raro"] },
+    { slug: "cosmic-bloom", name: "Cosmic Bloom", num: 118, price: "1.29", rare: false, image: IMG.purple, attrs: ["Chapéu", "Roxo", "Comum"] },
+    { slug: "violet-nomad", name: "Violet Nomad", num: 314, price: "1.39", rare: false, image: IMG.purple, attrs: ["Chapéu", "Violeta", "Comum"] },
+    { slug: "ivory-baron", name: "Ivory Baron", num: 88, price: "1.79", rare: false, image: IMG.teal, attrs: ["Terno", "Marfim", "Comum"] },
+    { slug: "golden-beat", name: "Golden Beat", num: 207, price: "0.99", rare: false, image: IMG.headphones, attrs: ["Fone", "Dourado", "Comum"] },
+    { slug: "golden-frequency", name: "Golden Frequency", num: 71, price: "0.59", rare: false, image: IMG.headphones, attrs: ["Fone", "Dourado", "Comum"] },
+    { slug: "golden-signal", name: "Golden Signal", num: 160, price: "0.39", rare: false, image: IMG.headphones, attrs: ["Fone", "Dourado", "Comum"] },
 ] as const
 
 const pad = (n: number, size: number) => String(n).padStart(size, "0")
@@ -31,7 +36,7 @@ export const nftFixtures: Nft[] = Array.from({ length: 36 }, (_, i) => {
     const base = BASE[i % BASE.length]
     const round = Math.floor(i / BASE.length)
     const num = base.num + round * 100
-    const image = `/images/nfts/${base.slug}.${ext}`
+    const image: string = base.image
     const price = new Decimal(base.price).plus(new Decimal("0.10").times(round)).toFixed(2)
     const old = "old" in base && round === 0 ? base.old : undefined
 

@@ -176,6 +176,7 @@ export interface Wallet {
     kind: "primary" | "secondary"
     displayName: string
     alias: string
+    profileName: string
     network: Network
     address: string
     secondaryAddress?: string
@@ -256,4 +257,11 @@ export interface OrderUpdatedEvent extends RealtimeEventBase {
     type: "order.updated"
     userId: string
     data: { status: OrderStatus; txHash?: string; declineReason?: string }
+}
+
+export type WalletKind = "primary" | "secondary"
+export type CreateWalletInput = WalletInput & { kind: WalletKind }
+
+export interface UpdateAvatarInput {
+    avatarUrl: string | null
 }
