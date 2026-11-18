@@ -1,11 +1,11 @@
-import type { Cart, Nft, Order, User, Wallet } from "@/api/contracts"
+import type { Cart, CartItemInput, Nft, Order, User, Wallet } from "@/api/contracts"
 import { nftFixtures } from "./fixtures/nfts"
 import { userFixtures, walletFixtures } from "./fixtures/users"
 import { hashPassword } from "./lib/crypto"
 import { scenarioPresets, type ScenarioConfig } from "./scenario-presets"
 
 // Mude o número se alterar a estrutura dos dados de exemplo.
-const STORAGE_KEY = "kurio:mock-db:v2"
+const STORAGE_KEY = "kurio:mock-db:v3"
 
 export interface StoredUser extends User {
     passwordHash: string
@@ -19,6 +19,9 @@ export interface StoredSession {
 
 export interface StoredOrder extends Order {
     userId: string
+    plannedOutcome: "confirmed" | "declined"
+    settleAt: string
+    purchased: CartItemInput[]
 }
 
 export interface IdempotencyRecord {

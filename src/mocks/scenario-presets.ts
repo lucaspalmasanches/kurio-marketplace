@@ -23,6 +23,13 @@ export type Fault =
     | { type: "timeout"; times?: number }
     | { type: "http"; status: number; code?: ApiErrorCode; message?: string; times?: number }
 
+export interface OrderScenario {
+    outcome: "confirmed" | "declined"
+    settleMs: number
+    dropResponseTimes: number
+    mutateOnCreate?: { kind: "price" | "soldout"; times: number }
+}
+
 export interface ScenarioConfig {
     name: string
     description: string
@@ -31,13 +38,14 @@ export interface ScenarioConfig {
     emptyCatalog: boolean
     offline: boolean
     faults: Partial<Record<FaultKey, Fault>>
+    order: OrderScenario
 }
 
-function make(
-    name: string,
-    description: string,
-    overrides: Partial<Omit<ScenarioConfig, "name" | "description">> = {},
-): ScenarioConfig {
+type Overrides = Partial<Omit<ScenarioConfig, "name" | "description" | "order">> & {
+    order?: Partial<OrderScenario>
+}
+
+function make(name: string, description: string, overrides: Overrides = {}): ScenarioConfig {
     return {
         name,
         description,
@@ -47,6 +55,7 @@ function make(
         offline: false,
         faults: {},
         ...overrides,
+        order: { outcome: "confirmed", settleMs: 1500, dropResponseTimes: 0, ...overrides.order },
     }
 }
 
@@ -79,6 +88,21 @@ export const scenarioPresets: Record<string, ScenarioConfig> = Object.fromEntrie
                 "wallets.read": { type: "http", status: 403, code: "FORBIDDEN", message: "Sem permissão." },
                 "wallets.write": { type: "http", status: 403, code: "FORBIDDEN", message: "Sem permissão." },
             },
+        }),
+        make("payment-declined", "O pedido é criado e depois recusado pela carteira.", {
+            order: { outcome: "declined" },
+        }),
+        make("order-timeout", "O pedido é criado, mas a primeira resposta nunca chega (timeout).", {
+            order: { dropResponseTimes: 1 },
+        }),
+        make("price-change-checkout", "O preço do 1º item muda na hora de finalizar a compra.", {
+            order: { mutateOnCreate: { kind: "price", times: 1 } },
+        }),
+        make("sold-out-checkout", "A edição do 1º item esgota na hora de finalizar a compra.", {
+            order: { mutateOnCreate: { kind: "soldout", times: 1 } },
+        }),
+        make("pending-slow", "O pedido fica pendente por 8 s antes de ser liquidado.", {
+            order: { settleMs: 8000 },
         }),
     ].map((s) => [s.name, s]),
 )

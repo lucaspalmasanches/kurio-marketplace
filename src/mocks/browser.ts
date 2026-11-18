@@ -1,6 +1,8 @@
 import { setupWorker } from "msw/browser"
 import { initDb, resetDb } from "./db"
 import { handlers } from "./handlers"
+import { schedulePendingOrders } from "./lib/orders"
+import { updateNft, type NftPatch } from "./lib/nft-changes"
 import { expireSessions, getScenarioName, listScenarios, setScenario } from "./scenario"
 
 export const worker = setupWorker(...handlers)
@@ -13,6 +15,7 @@ declare global {
             getScenario: () => string
             listScenarios: () => { name: string; description: string }[]
             expireSessions: () => void
+            updateNft: (id: string, patch: NftPatch) => void
         }
     }
 }
@@ -29,6 +32,17 @@ export async function startMocks(): Promise<void> {
         }
     }
 
-    window.__kurioMocks = { resetDb, setScenario, getScenario: getScenarioName, listScenarios, expireSessions }
+    schedulePendingOrders()
+
+    window.__kurioMocks = {
+        resetDb,
+        setScenario,
+        getScenario: getScenarioName,
+        listScenarios,
+        expireSessions,
+        updateNft: (id, patch) => {
+            updateNft(id, patch)
+        },
+    }
     await worker.start({ onUnhandledRequest: "bypass" })
 }

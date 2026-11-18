@@ -4,6 +4,8 @@ import type {
     RegisterInput,
     UpdateProfileInput,
     WalletInput,
+    CollectorInput,
+    CreateOrderInput,
 } from "./contracts"
 
 export type FieldErrors = Record<string, string>
@@ -111,5 +113,22 @@ export function validateWallet(input: WalletInput): FieldErrors {
         ["referralCode", isBlank(input.referralCode) ? "Informe o código de indicação." : null],
         ["email", checkEmail(input.email)],
         ["ensName", checkEns(input.ensName)],
+    ])
+}
+
+export function validateOrderInput(input: CreateOrderInput): FieldErrors {
+    const c: Partial<CollectorInput> = input.collector ?? {}
+    return collect([
+        ["quoteId", isBlank(input.quoteId) ? "Cotação ausente. Revise o pedido." : null],
+        ["items", Array.isArray(input.items) && input.items.length > 0 ? null : "O pedido não tem itens."],
+        ["walletId", isBlank(input.walletId) ? "Selecione uma carteira." : null],
+        ["provider", PROVIDERS.includes(input.provider) ? null : "Selecione o tipo de carteira."],
+        ["network", NETWORKS.includes(input.network) ? null : "Selecione uma rede."],
+        ["displayName", isBlank(c.displayName) ? "Informe o nome de exibição." : null],
+        ["username", checkUsername(c.username ?? "")],
+        ["profileName", isBlank(c.profileName) ? "Informe o nome do perfil." : null],
+        ["email", checkEmail(c.email ?? "")],
+        ["ensName", checkEns(c.ensName ?? "")],
+        ["referralCode", isBlank(c.referralCode) ? "Informe o código de indicação." : null],
     ])
 }
