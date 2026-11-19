@@ -5,7 +5,7 @@
 - `src/api`: contratos tipados (`contracts.ts`), validações compartilhadas entre UI e mocks (`validation.ts`), cliente Axios com interceptores e funções por recurso.
 - `src/features`: hooks de estado remoto (TanStack Query) por domínio: sessão, carrinho/cotação, favoritos, carteiras, ponte de tempo real.
 - `src/lib`: cliente Socket.IO (`realtime.ts`), stores persistidas (token, carrinho do visitante, cupom, checkout pendente).
-- `src/routes`: rotas por arquivo (TanStack Router). `_auth` protege perfil, carteiras, pagamento e pedido.
+- `src/routes`: rotas por arquivo (TanStack Router). `_auth` protege perfil, carteiras, favoritos, pagamento e pedido.
 - `src/mocks`: MSW. Banco simulado persistido em `localStorage`, cenários determinísticos, handlers REST e Socket.IO. Nenhum componente, hook ou cliente Axios contém respostas fictícias.
 
 ## Contratos REST (prefixo `/api`)
@@ -15,7 +15,7 @@ Erros: `{ code, message, fieldErrors? }`, com os códigos `VALIDATION_ERROR` (40
 | Recurso | Endpoints |
 |---|---|
 | Sessão | `POST /auth/register`, `POST /auth/login`, `GET /auth/session`, `POST /auth/logout` (Bearer token, TTL 60 min) |
-| NFTs | `GET /nfts?q&category&network&minPrice&maxPrice&sort&tab&page&pageSize`, `GET /nfts/:id/reviews` |
+| NFTs | `GET /nfts?q&category&network&minPrice&maxPrice&sort&tab&page&pageSize`, `GET /nfts/:id`, `GET /nfts/:id/reviews` |
 | Favoritos | `GET /favorites`, `PUT /favorites/:nftId`, `DELETE /favorites/:nftId` |
 | Carrinho | `GET /cart`, `POST /cart/items`, `PATCH /cart/items/:id`, `DELETE /cart/items/:id`, `POST /cart/merge`. Visitante identificado por `x-cart-id`. |
 | Cotação | `POST /quote` → subtotal, desconto, taxa de rede, total, disponibilidade por linha. O `id` é um hash do conteúdo. |
@@ -124,11 +124,9 @@ Executados em Chromium, desktop (1440px) e mobile (Pixel 7), sempre a partir de 
 - Perfil (validação, persistência e senha) e carteiras (validação e cadastro)
 - Teclado: atalho para o conteúdo, foco em erros de validação, login sem mouse, foco preso no diálogo e Escape
 - Skeletons com latência lenta e recuperação após falha de servidor
-- Detalhe com abas por teclado, avaliações e ‘Mais desta coleção’; lista de interesse; navegação inferior no mobile
+- Detalhe com abas por teclado, avaliações e "Mais desta coleção"; lista de interesse; navegação inferior no mobile
 
-- **Auditoria Lighthouse** com relatórios HTML/JSON versionados.
-- **Interface:** barra de navegação inferior do mobile, seção "Mais desta coleção" e aba de avaliações do detalhe.
-- **Regressão visual:** `e2e/visual.spec.ts` compara início, detalhe, carrinho e pagamento (desktop e mobile) com as baselines versionadas em `e2e/visual.spec.ts-snapshots/`. Os dados vêm do cenário padrão dos mocks; carrinho e login são criados pela API para evitar avisos na tela, e as animações são desativadas na captura. As baselines foram geradas em Windows/Chromium; em outro sistema operacional a renderização de fontes pode variar e as baselines devem ser regeneradas com `npm run test:visual:update`.
+**Regressão visual:** `e2e/visual.spec.ts` compara início, detalhe, carrinho e pagamento (desktop e mobile) com as baselines versionadas em `e2e/visual.spec.ts-snapshots/`. Os dados vêm do cenário padrão dos mocks; carrinho e login são criados pela API para evitar avisos na tela, e as animações são desativadas na captura. As baselines foram geradas em Windows/Chromium; em outro sistema operacional a renderização de fontes pode variar e as baselines devem ser regeneradas com `npm run test:visual:update`.
 
 ### Limitações da simulação
 

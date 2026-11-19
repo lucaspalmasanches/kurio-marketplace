@@ -16,7 +16,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootLayout() {
     return (
-        <div className="flex min-h-dvh flex-col bg-background text-foreground" pb-20 md:pb-0>
+        <div className="flex min-h-dvh flex-col bg-background pb-20 text-foreground md:pb-0">
             <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">
                 Pular para o conteúdo
             </a>

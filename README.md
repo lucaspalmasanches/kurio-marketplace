@@ -2,7 +2,7 @@
 
 Aplicação React + TypeScript com dados simulados por MSW (REST e Socket.IO).
 
-**Deploy:** (https://kurio-marketplace-one.vercel.app/)
+**Deploy:** https://kurio-marketplace-one.vercel.app/
 
 ## Stack
 

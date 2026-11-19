@@ -6,12 +6,9 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'public/mockServiceWorker.js', 'playwright-report', 'test-results', 'lighthouse/reports', '.lighthouseci']),
   {
-    files: ['src/routes/**/*.{ts,tsx}', 'src/components/ui/**/*.{ts,tsx'],
-    rules: {
-      'react-refresh/only-export-components': 'off',
-    },
+    files: ['**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -20,6 +17,13 @@ export default defineConfig([
     ],
     languageOptions: {
       globals: globals.browser,
+    },
+  },
+  {
+    // Rotas do TanStack Router e componentes do shadcn exportam mais do que componentes.
+    files: ['src/routes/**/*.{ts,tsx}', 'src/components/ui/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
 ])
