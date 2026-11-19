@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { formatDate, shortAddress } from "@/lib/format"
 import { recordResourceVersion } from "@/lib/realtime"
 import { couponStore, pendingCheckoutStore } from "@/lib/stores"
+import { nftThumb } from "@/lib/images"
 
 export const Route = createFileRoute("/_auth/pedido/$orderId")({ component: OrderPage })
 
@@ -117,7 +118,7 @@ function Receipt({ order, onClose }: { order: Order; onClose: () => void }) {
                             <tr key={`${item.nftId}-${item.editionLabel}`}>
                                 <td className="py-2">
                                     <div className="flex items-center gap-3">
-                                        <img src={item.imageUrl} alt="" width={48} height={48} className="size-12 rounded-md object-cover" />
+                                        <img src={nftThumb(item.imageUrl)} alt="" width={48} height={48} className="size-12 rounded-md object-cover" />
                                         <div>
                                             <p className="font-bold">{item.name}</p>
                                             <p className="text-text-secondary">ID do token: #{item.tokenId} · {item.editionLabel}</p>

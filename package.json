@@ -13,7 +13,8 @@
     "test:e2e:report": "playwright show-report",
     "test:visual": "playwright test e2e/visual.spec.ts",
     "test:visual:update": "playwright test e2e/visual.spec.ts --update-snapshots",
-    "lighthouse": "npm run build && lhci collect --config=lighthouse/lighthouserc.mobile.json && lhci upload --config=lighthouse/lighthouserc.mobile.json && lhci collect --config=lighthouse/lighthouserc.desktop.json && lhci upload --config=lighthouse/lighthouserc.desktop.json && node lighthouse/summarize.mjs"
+    "lighthouse": "npm run build && lhci collect --config=lighthouse/lighthouserc.mobile.json && lhci upload --config=lighthouse/lighthouserc.mobile.json && lhci collect --config=lighthouse/lighthouserc.desktop.json && lhci upload --config=lighthouse/lighthouserc.desktop.json && node lighthouse/summarize.mjs",
+    "images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -52,6 +53,7 @@
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.13.0",
     "msw": "^2.15.0",
+    "sharp": "^0.35.5",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.1",
     "vite": "^8.3.6"

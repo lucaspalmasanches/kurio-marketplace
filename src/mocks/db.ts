@@ -5,7 +5,7 @@ import { hashPassword } from "./lib/crypto"
 import { scenarioPresets, type ScenarioConfig } from "./scenario-presets"
 
 // Mude o número se alterar a estrutura dos dados de exemplo.
-const STORAGE_KEY = "kurio:mock-db:v3"
+const STORAGE_KEY = "kurio:mock-db:v4"
 
 export interface StoredUser extends User {
     passwordHash: string

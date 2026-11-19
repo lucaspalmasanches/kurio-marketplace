@@ -14,6 +14,7 @@ import { useFavorites, useToggleFavorite } from "@/features/favorites"
 import { nftQuery } from "@/features/nft"
 import { useSession } from "@/features/session"
 import { cn } from "@/lib/utils"
+import { nftSrcSet, nftThumb } from "@/lib/images"
 
 export const Route = createFileRoute("/nft/$id")({ component: NftDetailPage })
 
@@ -108,7 +109,7 @@ function NftDetail({ nft }: { nft: Nft }) {
                                 aria-pressed={i === imageIndex}
                                 className={cn("block overflow-hidden rounded-md border-2", i === imageIndex ? "border-primary" : "border-transparent")}
                             >
-                                <img src={src} alt="" width={80} height={80} className="size-16 object-cover lg:size-20" />
+                                <img src={nftThumb(src)} alt="" width={80} height={80} className="size-16 object-cover lg:size-20" />
                             </button>
                         </li>
                     ))}
@@ -120,6 +121,8 @@ function NftDetail({ nft }: { nft: Nft }) {
                     width={420}
                     height={420}
                     className="aspect-square w-full rounded-nft object-cover"
+                    srcSet={nftSrcSet(nft.images[imageIndex] ?? nft.imageUrl)}
+                    sizes="(min-width: 1024px) 420px, 100vw"
                 />
 
                 <div className="flex flex-col gap-4">

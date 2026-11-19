@@ -1,6 +1,7 @@
 import axios from "axios"
 import type { ApiErrorBody, ApiErrorCode } from "./contracts"
 import { getGuestCartId, tokenStore } from "@/lib/stores"
+import { whenMocksReady } from "@/lib/mocks-ready"
 
 export type ClientErrorCode = ApiErrorCode | "NETWORK_ERROR"
 
@@ -37,7 +38,8 @@ export const api = axios.create({
     headers: { "Content-Type": "application/json" },
 })
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(async (config) => {
+    await whenMocksReady()
     const token = tokenStore.get()
     if (token) config.headers.set("Authorization", `Bearer ${token}`)
     config.headers.set("x-cart-id", getGuestCartId())

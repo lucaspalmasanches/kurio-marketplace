@@ -7,6 +7,7 @@ import { isApiError, setUnauthorizedHandler } from "./api/client"
 import { endSession } from "./features/session"
 import { tokenStore } from "./lib/stores"
 import { routeTree } from "./routeTree.gen"
+import { setMocksReady } from "./lib/mocks-ready"
 import "./index.css"
 
 const RETRYABLE = new Set(["TRANSIENT_ERROR", "NETWORK_ERROR"])
@@ -49,12 +50,17 @@ async function enableMocking() {
   await startMocks()
 }
 
-enableMocking().then(() => {
-  ReactDOM.createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </StrictMode>,
-  )
-})
+// Inicia os mocks em paralelo e renderiza na hora; só o transporte espera os mocks.
+setMocksReady(
+  enableMocking().catch((error: unknown) => {
+    console.error("[mocks] falha ao iniciar", error)
+  }),
+)
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </StrictMode>,
+)

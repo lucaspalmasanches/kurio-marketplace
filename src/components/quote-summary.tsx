@@ -3,6 +3,7 @@ import type { Quote, QuoteLine } from "@/api/contracts"
 import { nftQuery } from "@/features/nft"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "./skeleton"
+import { nftThumb } from "@/lib/images"
 
 export function QuoteTotals({ quote, updating }: { quote: Quote; updating?: boolean }) {
     return (
@@ -39,7 +40,7 @@ function LineItem({ line }: { line: QuoteLine }) {
     return (
         <li className="flex items-center gap-3 rounded-md bg-surface-card p-2">
             {nft.data ? (
-                <img src={nft.data.imageUrl} alt="" width={48} height={48} className="size-12 rounded-md object-cover" />
+                <img src={nftThumb(nft.data.imageUrl)} alt="" width={48} height={48} className="size-12 rounded-md object-cover" />
             ) : (
                 <Skeleton className="size-12" />
             )}

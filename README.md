@@ -46,6 +46,8 @@ Cupons: `KURIO10` (10%), `WELCOME` (0,25 ETH), `EXPIRED10` (expirado). Qualquer 
 | `npm run test:e2e:report` | Abre o relatório HTML (traces das falhas ficam em `test-results/`) |
 | `npm run test:visual` | Regressão visual (início, detalhe, carrinho e pagamento) |
 | `npm run test:visual:update` | Regenera as baselines após uma mudança visual intencional |
+| `npm run lighthouse` | Build + auditoria Lighthouse (3 execuções por página, mobile e desktop) e resumo em `lighthouse/RESULTS.md` |
+| `npm run images` | Gera as imagens WebP otimizadas a partir dos originais em `design/nfts/` |
 
 ## Cenários de mock
 

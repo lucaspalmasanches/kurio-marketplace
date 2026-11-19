@@ -58,6 +58,40 @@ O carrinho fica no servidor simulado (por usuário, ou por `x-cart-id` para visi
 
 `nft.updated` atualiza o detalhe no cache e invalida a listagem e as cotações. `order.updated` invalida o pedido e o carrinho. Ao reconectar, todas as queries ativas são invalidadas. Um pedido pendente também é consultado a cada 5 s como garantia, e o mock liquida pedidos vencidos na leitura, o que cobre o refresh durante pedidos pendentes.
 
+## Performance (Lighthouse)
+
+Auditoria do início (`/`) e do detalhe (`/nft/emerald-ape-042`) com build otimizado, mocks no cenário padrão, 3 execuções por página e perfil. Os valores abaixo são medianas. Ambiente, versões e condições estão em `lighthouse/RESULTS.md`; relatórios HTML/JSON em `lighthouse/reports/`; configuração em `lighthouse/lighthouserc.*.json`. Para reproduzir: `npm run lighthouse`.
+
+| Perfil | Página | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT |
+|---|---|---|---|---|---|---|---|---|
+| Mobile | / | 84 | 100 | 100 | 100 | 4,16 s | 0,016 | 153 ms |
+| Mobile | /nft/emerald-ape-042 | 84 | 100 | 100 | 100 | 4,16 s | 0,000 | 138 ms |
+| Desktop | / | 99 | 100 | 100 | 100 | 0,93 s | 0,002 | 0 ms |
+| Desktop | /nft/emerald-ape-042 | 99 | 100 | 100 | 100 | 0,99 s | 0,042 | 0 ms |
+
+**Metas:** Accessibility, Best Practices e SEO foram atingidas em todos os casos, e Performance no desktop. **Performance no mobile ficou abaixo da meta (84 contra 90)**; entre rodadas, a mediana variou de 84 a 88.
+
+### Causa identificada
+
+- O elemento de LCP é a imagem do hero (no detalhe, a imagem do NFT, que é a mesma).
+- No *LCP breakdown* do relatório, a imagem chega rápido (TTFB 30 ms, atraso de carga 50 ms, carga 20 ms), mas há **700 ms de *element render delay***: o gargalo é o JavaScript executado antes da renderização, não a imagem.
+- O build de demonstração precisa incluir a camada de mocks (MSW, binding de Socket.IO e fixtures): cerca de **187 kB gzip (503 kB minificado)**, o maior pedaço do JavaScript inicial, somado a React, TanStack Router/Query e Radix. Na simulação mobile do Lighthouse (rede e CPU limitadas), o download e a execução desse código levam o LCP simulado a cerca de 4 s.
+- Com um backend real, o código de mocks não seria entregue ao navegador.
+
+### Otimizações aplicadas
+
+1. **Imagens:** os PNGs exportados do Figma (~2 MB cada) foram convertidos em WebP de 400 px e 840 px, servidos com `srcset`/`sizes` (originais em `design/nfts/`, conversão com `npm run images`). Isso tirou cerca de 8 MB do deploy, sem efeito mensurável na nota, o que confirmou que a imagem não era o gargalo.
+2. **Preload da imagem de LCP** com `fetchpriority="high"` no `index.html`.
+3. **Renderização sem esperar os mocks:** cabeçalho, hero e skeletons aparecem de imediato, e apenas o transporte (Axios e Socket.IO) aguarda a camada de rede ficar pronta (`src/lib/mocks-ready.ts`). Melhora a percepção de carregamento, mas não alterou o LCP simulado.
+
+### O que não foi feito, de propósito
+
+Adiar o carregamento dos mocks, desativá-los ou usar uma versão simplificada apenas durante a auditoria aumentaria a nota sem refletir a aplicação entregue, o que o desafio proíbe.
+
+### Próximos passos possíveis
+
+Analisar a composição do bundle de mocks (por exemplo, dependências do MSW que não são usadas) e dividi-lo em partes carregadas sob demanda; medir também no deploy (Vercel), que serve os arquivos com compressão e CDN.
+
 ## Decisões de UX e desvios do Figma
 
 - Login e cadastro são páginas, e não modais no desktop.
@@ -67,10 +101,6 @@ O carrinho fica no servidor simulado (por usuário, ou por `x-cart-id` para visi
 - Bordas com o laranja a 30% de opacidade; raio de 5px no desktop.
 - Ações fora do escopo (Criadores, Aprenda, newsletter, login social) aparecem como indisponíveis e não simulam sucesso.
 - Links do Etherscan e hashes de transação são simulados.
-
-## Situação da entrega
-
-### Em andamento
 
 ## Testes E2E (Playwright)
 

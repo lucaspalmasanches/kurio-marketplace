@@ -1,5 +1,6 @@
 import type { Socket } from "socket.io-client"
 import type { NftUpdatedEvent, OrderUpdatedEvent } from "@/api/contracts"
+import { whenMocksReady } from "./mocks-ready"
 
 export type RealtimeEvent = NftUpdatedEvent | OrderUpdatedEvent
 export type RealtimeStatus = "idle" | "connecting" | "connected" | "reconnecting" | "disconnected"
@@ -97,6 +98,9 @@ export async function connectRealtime(options: ConnectOptions = {}): Promise<voi
     const mine = generation
     activeUserId = options.userId ?? null
     setStatus("connecting")
+    // O socket só pode ser criado depois que o MSW substituiu o WebSocket.
+    await whenMocksReady()
+    if (mine !== generation) return
 
     // Import dinâmico: o socket.io-client precisa ser carregado DEPOIS que o MSW subiu,
     // porque a biblioteca pode guardar o WebSocket global ao ser importada.

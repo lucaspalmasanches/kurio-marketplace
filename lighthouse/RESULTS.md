@@ -4,19 +4,19 @@
 
 | Página | Performance | Accessibility | Best Practices | SEO | LCP (ms) | CLS | TBT (ms) |
 |---|---|---|---|---|---|---|---|
-| / | 88 | 100 | 100 | 100 | 3685 | 0.016 | 149 |
-| /nft/emerald-ape-042 | 87 | 100 | 100 | 100 | 3986 | 0.000 | 111 |
+| / | 84 | 100 | 100 | 100 | 4159 | 0.016 | 153 |
+| /nft/emerald-ape-042 | 84 | 100 | 100 | 100 | 4160 | 0.000 | 138 |
 
 ## Desktop
 
 | Página | Performance | Accessibility | Best Practices | SEO | LCP (ms) | CLS | TBT (ms) |
 |---|---|---|---|---|---|---|---|
-| / | 99 | 100 | 100 | 100 | 881 | 0.002 | 0 |
-| /nft/emerald-ape-042 | 99 | 100 | 100 | 100 | 893 | 0.042 | 0 |
+| / | 99 | 100 | 100 | 100 | 925 | 0.002 | 0 |
+| /nft/emerald-ape-042 | 99 | 100 | 100 | 100 | 986 | 0.042 | 0 |
 
 ## Ambiente e condições
 
-- Data: 2026-11-19T16:24:33.513Z
+- Data: 2026-11-19T17:18:10.176Z
 - Lighthouse: 13.6.0
 - Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36
 - Node.js: v24.19.0

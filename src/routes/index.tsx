@@ -11,6 +11,7 @@ import { EmptyState, ErrorState } from "@/components/states"
 import { Button } from "@/components/ui/button"
 import { recordResourceVersion } from "@/lib/realtime"
 import { cn } from "@/lib/utils"
+import { nftSrcSet } from "@/lib/images"
 
 const PAGE_SIZE = 9
 const SORTS: { value: NftSort; label: string }[] = [
@@ -230,6 +231,8 @@ function Hero() {
                 height={420}
                 fetchPriority="high"
                 className="aspect-square w-full rounded-nft object-cover"
+                srcSet={nftSrcSet(HERO_IMAGE)}
+                sizes="(min-width: 768px) 420px, 100vw"
             />
         </section>
     )

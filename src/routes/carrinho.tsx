@@ -15,6 +15,7 @@ import { quoteKey, toQuoteItems, useCart, useCartMutations, useQuote } from "@/f
 import { nftQuery } from "@/features/nft"
 import { useOwnerKey, useSession } from "@/features/session"
 import { couponStore } from "@/lib/stores"
+import { nftThumb } from "@/lib/images"
 
 export const Route = createFileRoute("/carrinho")({ component: CartPage })
 
@@ -104,7 +105,7 @@ function CartRow({ item, line }: { item: CartItem; line?: QuoteLine }) {
 
     return (
         <li className="grid grid-cols-[56px_minmax(0,1fr)_auto] items-center gap-3 rounded-md bg-surface-card p-3 sm:grid-cols-[56px_minmax(0,1.5fr)_1fr_auto_1fr_auto]">
-            {nft.data ? <img src={nft.data.imageUrl} alt="" width={56} height={56} className="size-14 rounded-md object-cover" /> : <Skeleton className="size-14" />}
+            {nft.data ? <img src={nftThumb(nft.data.imageUrl)} alt="" width={56} height={56} className="size-14 rounded-md object-cover" /> : <Skeleton className="size-14" />}
             <div className="min-w-0">
                 <p className="truncate font-bold"><Link to="/nft/$id" params={{ id: item.nftId }} className="hover:text-primary">{name}</Link></p>
                 <p className="text-sm text-text-secondary">ID do token: #{nft.data?.tokenId ?? "…"} · Edição {edition?.label ?? "…"}</p>

@@ -18,7 +18,7 @@ export const NETWORKS: { slug: Network; label: string }[] = [
     { slug: "solana", label: "Solana" },
 ]
 
-export const HERO_IMAGE = "/images/nfts/monkey-green-jacket.png"
+export const HERO_IMAGE = "/images/nfts/monkey-green-jacket-840.webp"
 
 export const PROVIDERS: { slug: WalletProvider; label: string }[] = [
     { slug: "walletconnect", label: "WalletConnect" },

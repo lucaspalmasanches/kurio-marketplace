@@ -3,10 +3,10 @@ import { CATEGORIES, NETWORKS } from "@/api/catalog"
 import type { Edition, Nft } from "@/api/contracts"
 
 const IMG = {
-    purple: "/images/nfts/gorilla-purple-hoodie.png",
-    teal: "/images/nfts/gorilla-teal-turtleneck.png",
-    green: "/images/nfts/monkey-green-jacket.png",
-    headphones: "/images/nfts/monkey-headphones.png",
+    purple: "/images/nfts/gorilla-purple-hoodie-840.webp",
+    teal: "/images/nfts/gorilla-teal-turtleneck-840.webp",
+    green: "/images/nfts/monkey-green-jacket-840.webp",
+    headphones: "/images/nfts/monkey-headphones-840.webp",
 }
 
 const BASE = [
