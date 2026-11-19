@@ -1,6 +1,7 @@
 import type { ApiErrorCode } from "@/api/contracts"
 
 export type FaultKey =
+    | "wallets.connect"
     | "auth.login"
     | "auth.register"
     | "auth.session"
@@ -61,6 +62,11 @@ function make(name: string, description: string, overrides: Overrides = {}): Sce
 
 export const scenarioPresets: Record<string, ScenarioConfig> = Object.fromEntries(
     [
+        make("wallet-rejected", "A carteira recusa a conexão no pagamento.", {
+            faults: {
+                "wallets.connect": { type: "http", status: 409, code: "PAYMENT_DECLINED", message: "A carteira recusou a conexão." },
+            },
+        }),
         make("default", "Rede estável, latência baixa e variável."),
         make("slow", "Latência alta (1,5 a 3 s) para ver os skeletons.", { latencyMs: [1500, 3000] }),
         make("out-of-order", "A listagem alterna respostas lentas e rápidas (fora de ordem).", {

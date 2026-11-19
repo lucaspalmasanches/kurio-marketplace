@@ -91,4 +91,14 @@ export const walletHandlers = [
         commit()
         return HttpResponse.json(mine)
     }),
+
+    http.post("/api/wallets/:id/connect", async ({ request, params }) => {
+        const early = await applyScenario("wallets.connect")
+        if (early) return early
+        const auth = requireAuth(request)
+        if (auth instanceof Response) return auth
+        const wallet = getState().wallets[auth.user.id]?.find((w) => w.id === params.id)
+        if (!wallet) return errorResponse(404, "NOT_FOUND", "Carteira não encontrada.")
+        return HttpResponse.json({ walletId: wallet.id, address: wallet.address, connected: true })
+    }),
 ]

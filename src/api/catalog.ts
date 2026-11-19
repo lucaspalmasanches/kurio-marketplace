@@ -1,4 +1,4 @@
-import type { Network } from "./contracts"
+import type { Network, WalletProvider } from "./contracts"
 
 export const CATEGORIES = [
     { slug: "arte-digital", label: "Arte digital" },
@@ -19,3 +19,12 @@ export const NETWORKS: { slug: Network; label: string }[] = [
 ]
 
 export const HERO_IMAGE = "/images/nfts/monkey-green-jacket.png"
+
+export const PROVIDERS: { slug: WalletProvider; label: string }[] = [
+    { slug: "walletconnect", label: "WalletConnect" },
+    { slug: "metamask", label: "MetaMask" },
+    { slug: "coinbase", label: "Coinbase Wallet" },
+]
+
+export const PROVIDER_LABEL = Object.fromEntries(PROVIDERS.map((p) => [p.slug, p.label])) as Record<WalletProvider, string>
+export const NETWORK_LABEL = Object.fromEntries(NETWORKS.map((n) => [n.slug, n.label])) as Record<Network, string>
