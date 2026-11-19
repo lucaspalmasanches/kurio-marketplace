@@ -52,7 +52,15 @@ function CheckoutPage() {
         )
     }
     if (wallets.data.length === 0) {
-        return <div className={wrap}><EmptyState title="Nenhuma carteira cadastrada" description="Cadastre uma carteira para receber seus NFTs." /></div>
+        return (
+            <div className={wrap}>
+                <EmptyState
+                    title="Nenhuma carteira cadastrada"
+                    description="Cadastre uma carteira para receber seus NFTs."
+                    action={<Button asChild><Link to="/carteiras">Cadastrar carteira</Link></Button>}
+                />
+            </div>
+        )
     }
     return <CheckoutFlow user={user} wallets={wallets.data} items={items} coupon={coupon} quote={quote} />
 }

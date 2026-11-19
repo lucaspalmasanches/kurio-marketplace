@@ -74,8 +74,7 @@ O carrinho fica no servidor simulado (por usuário, ou por `x-cart-id` para visi
 
 Itens ainda não concluídos. Esta seção é atualizada conforme cada um é entregue.
 
-- **Perfil do colecionador e carteiras:** os contratos, validações e mocks (`/profile`, `/wallets`) já existem; a interface está em construção.
-- **Testes E2E:** cobertos hoje, em desktop (1440px) e mobile (Pixel 7): compra completa até o recibo, acesso direto e NFT inexistente, filtros/ordenação/paginação com refresh e histórico, skeletons com latência lenta, timeout após criar o pedido com recuperação por idempotência e preço alterado durante o checkout. Faltam: cadastro, sessão expirada e troca de usuário; favoritos com falha e rollback; carrinho com cupom e persistência após login; pagamento recusado e clique repetido; perfil e carteiras; eventos duplicados ou antigos e retomada após desconexão; navegação por teclado e foco; regressão visual com baselines.
+- **Testes E2E:** cobertos hoje, em desktop (1440px) e mobile (Pixel 7): compra completa até o recibo, acesso direto e NFT inexistente, filtros/ordenação/paginação com refresh e histórico, skeletons com latência lenta, timeout após criar o pedido com recuperação por idempotência e preço alterado durante o checkout, perfil (validação, persistência após refresh e senha atual incorreta) e carteiras (validação e cadastro da secundária). Faltam: cadastro, sessão expirada e troca de usuário; favoritos com falha e rollback; carrinho com cupom e persistência após login; pagamento recusado e clique repetido; eventos duplicados ou antigos e retomada após desconexão; navegação por teclado e foco; regressão visual com baselines.
 - **Auditoria Lighthouse** com relatórios HTML/JSON versionados.
 - **Interface:** barra de navegação inferior do mobile, seção "Mais desta coleção" e aba de avaliações do detalhe.
 

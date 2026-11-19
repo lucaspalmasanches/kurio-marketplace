@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router"
-import { LogIn, LogOut, ShoppingCart } from "lucide-react"
+import { LogIn, LogOut, ShoppingCart, UserRound } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/features/cart"
@@ -59,7 +59,10 @@ export function Header() {
                     </Link>
                     {user ? (
                         <>
-                            <span className="hidden max-w-32 truncate text-sm sm:inline">{user.displayName}</span>
+                            <Link to="/perfil" className="hidden max-w-32 truncate text-sm hover:text-primary sm:inline">{user.displayName}</Link>
+                            <Link to="/perfil" aria-label="Meu perfil" className="grid size-10 place-items-center rounded-full hover:bg-muted sm:hidden">
+                                <UserRound aria-hidden className="size-5" />
+                            </Link>
                             <Button variant="outline" size="sm" onClick={onLogout}>
                                 <LogOut aria-hidden />
                                 Sair
