@@ -48,3 +48,10 @@ export function requireAuth(
     if (!user) return errorResponse(401, "UNAUTHENTICATED", "Sessão inválida.")
     return { user, session }
 }
+
+export function findUserByToken(token: string): StoredUser | null {
+    const { sessions, users } = getState()
+    const session = sessions.find((s) => s.token === token)
+    if (!session || new Date(session.expiresAt).getTime() <= Date.now()) return null
+    return users.find((u) => u.id === session.userId) ?? null
+}

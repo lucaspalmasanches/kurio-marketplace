@@ -41,3 +41,21 @@ export function updateNft(nftId: string, patch: NftPatch): Nft | null {
     publishEvent(event)
     return nft
 }
+
+/** Publica um evento ANTIGO (versão já superada) para testar que o cliente o ignora. Não altera o banco. */
+export function emitStaleNftEvent(nftId: string): void {
+    const nft = getState().nfts.find((n) => n.id === nftId)
+    if (!nft) return
+    const event: NftUpdatedEvent = {
+        type: "nft.updated",
+        id: newId("evt"),
+        resource: { type: "nft", id: nft.id },
+        version: Math.max(0, nft.version - 1),
+        occurredAt: new Date().toISOString(),
+        data: {
+            priceEth: nft.previousPriceEth ?? nft.priceEth,
+            availability: Object.fromEntries(nft.editions.map((e) => [e.id, e.available])),
+        },
+    }
+    publishEvent(event)
+}

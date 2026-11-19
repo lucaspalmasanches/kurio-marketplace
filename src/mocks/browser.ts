@@ -1,8 +1,10 @@
 import { setupWorker } from "msw/browser"
 import { initDb, resetDb } from "./db"
 import { handlers } from "./handlers"
+import { dropConnections } from "./handlers/realtime"
+import { getLastEvent, publishEvent } from "./lib/events"
+import { emitStaleNftEvent, updateNft, type NftPatch } from "./lib/nft-changes"
 import { schedulePendingOrders } from "./lib/orders"
-import { updateNft, type NftPatch } from "./lib/nft-changes"
 import { expireSessions, getScenarioName, listScenarios, setScenario } from "./scenario"
 
 export const worker = setupWorker(...handlers)
@@ -16,6 +18,9 @@ declare global {
             listScenarios: () => { name: string; description: string }[]
             expireSessions: () => void
             updateNft: (id: string, patch: NftPatch) => void
+            replayLastEvent: () => void
+            emitStaleNft: (id: string) => void
+            dropConnections: () => void
         }
     }
 }
@@ -43,6 +48,12 @@ export async function startMocks(): Promise<void> {
         updateNft: (id, patch) => {
             updateNft(id, patch)
         },
+        replayLastEvent: () => {
+            const event = getLastEvent()
+            if (event) publishEvent(event)
+        },
+        emitStaleNft: emitStaleNftEvent,
+        dropConnections,
     }
     await worker.start({ onUnhandledRequest: "bypass" })
 }
