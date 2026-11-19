@@ -72,8 +72,6 @@ O carrinho fica no servidor simulado (por usuário, ou por `x-cart-id` para visi
 
 ### Em andamento
 
-Regressão visual com baselines versionadas.
-
 ## Testes E2E (Playwright)
 
 Executados em Chromium, desktop (1440px) e mobile (Pixel 7), sempre a partir de um estado isolado (contexto novo, mocks no cenário padrão). Cobertura:
@@ -93,8 +91,10 @@ Executados em Chromium, desktop (1440px) e mobile (Pixel 7), sempre a partir de 
 - Perfil (validação, persistência e senha) e carteiras (validação e cadastro)
 - Teclado: atalho para o conteúdo, foco em erros de validação, login sem mouse, foco preso no diálogo e Escape
 - Skeletons com latência lenta e recuperação após falha de servidor
+
 - **Auditoria Lighthouse** com relatórios HTML/JSON versionados.
 - **Interface:** barra de navegação inferior do mobile, seção "Mais desta coleção" e aba de avaliações do detalhe.
+- **Regressão visual:** `e2e/visual.spec.ts` compara início, detalhe, carrinho e pagamento (desktop e mobile) com as baselines versionadas em `e2e/visual.spec.ts-snapshots/`. Os dados vêm do cenário padrão dos mocks; carrinho e login são criados pela API para evitar avisos na tela, e as animações são desativadas na captura. As baselines foram geradas em Windows/Chromium; em outro sistema operacional a renderização de fontes pode variar e as baselines devem ser regeneradas com `npm run test:visual:update`.
 
 ### Limitações da simulação
 

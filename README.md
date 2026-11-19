@@ -44,6 +44,8 @@ Cupons: `KURIO10` (10%), `WELCOME` (0,25 ETH), `EXPIRED10` (expirado). Qualquer 
 | `npm run lint` | ESLint |
 | `npm run test:e2e` | Playwright (build + preview + testes em desktop e mobile) |
 | `npm run test:e2e:report` | Abre o relatório HTML (traces das falhas ficam em `test-results/`) |
+| `npm run test:visual` | Regressão visual (início, detalhe, carrinho e pagamento) |
+| `npm run test:visual:update` | Regenera as baselines após uma mudança visual intencional |
 
 ## Cenários de mock
 
