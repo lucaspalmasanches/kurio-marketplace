@@ -15,6 +15,8 @@ import { nftQuery } from "@/features/nft"
 import { useSession } from "@/features/session"
 import { cn } from "@/lib/utils"
 import { nftSrcSet, nftThumb } from "@/lib/images"
+import { NftTabs } from "@/components/nft-tabs"
+import { MoreFromCollection } from "@/components/more-from-collection"
 
 export const Route = createFileRoute("/nft/$id")({ component: NftDetailPage })
 
@@ -203,12 +205,8 @@ function NftDetail({ nft }: { nft: Nft }) {
                 </div>
             </div>
 
-            <section aria-labelledby="detalhes" className="mt-12 border-t border-border pt-6">
-                <h2 id="detalhes" className="mb-4 text-section font-bold text-primary">Detalhes do NFT</h2>
-                <p className="text-body text-text-secondary">
-                    {nft.name} é uma obra digital da coleção {nft.collection}, com metadados verificados na rede e procedência registrada.
-                </p>
-            </section>
+            <NftTabs nft={nft} />
+            <MoreFromCollection nftId={nft.id} />
         </div>
     )
 }

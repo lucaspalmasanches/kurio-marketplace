@@ -190,3 +190,35 @@ test("falha de servidor exibe erro e recupera após nova tentativa", async ({ pa
     await page.getByRole("button", { name: "Tentar novamente" }).click()
     await expect(page.getByRole("link", { name: "Emerald Ape #042" })).toBeVisible()
 })
+
+test("detalhe: abas por teclado, avaliações e mais desta coleção", async ({ page }) => {
+    await page.goto("/nft/emerald-ape-042")
+    const details = page.getByRole("tab", { name: "Detalhes do NFT" })
+    await expect(details).toHaveAttribute("aria-selected", "true")
+
+    await details.focus()
+    await page.keyboard.press("ArrowRight")
+    const reviews = page.getByRole("tab", { name: /Avaliações de colecionadores/ })
+    await expect(reviews).toBeFocused()
+    await expect(reviews).toHaveAttribute("aria-selected", "true")
+    await expect(page.getByRole("tabpanel")).toContainText(/Média 4\.8 de 5/)
+
+    const related = page.getByRole("region", { name: "Mais desta coleção" })
+    await expect(related.getByRole("link").first()).toBeVisible()
+    await expect(related.getByRole("link", { name: "Emerald Ape #042" })).toHaveCount(0)
+})
+
+test("lista de interesse mostra os favoritos do usuário", async ({ page }) => {
+    await login(page)
+    await page.goto("/favoritos")
+    await expect(page.getByRole("main").getByRole("link", { name: "Emerald Ape #042" })).toBeVisible()
+})
+
+test("navegação inferior no mobile", async ({ page, isMobile }) => {
+    test.skip(!isMobile, "A barra aparece apenas em telas pequenas")
+    await page.goto("/")
+    const nav = page.getByRole("navigation", { name: "Navegação inferior" })
+    await expect(nav).toBeVisible()
+    await nav.getByRole("link", { name: "Favoritos" }).click()
+    await expect(page).toHaveURL(/\/login\?redirect=/)
+})

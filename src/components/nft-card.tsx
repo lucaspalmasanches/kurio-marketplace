@@ -3,7 +3,15 @@ import type { Nft } from "@/api/contracts"
 import { Skeleton } from "./skeleton"
 import { nftSrcSet } from "@/lib/images";
 
-export function NftCard({ nft, priority = false }: { nft: Nft; priority?: boolean }) {
+export function NftCard({
+    nft,
+    priority = false,
+    sizes = "(min-width: 1280px) 300px, (min-width: 640px) 45vw, 100vw",
+}: {
+    nft: Nft
+    priority?: boolean
+    sizes?: string
+}) {
     return (
         <article className="group relative flex h-full flex-col gap-3 rounded-nft bg-surface-card p-3 transition-colors hover:bg-muted">
             <div className="relative overflow-hidden rounded-nft">
@@ -16,7 +24,7 @@ export function NftCard({ nft, priority = false }: { nft: Nft; priority?: boolea
                     decoding="async"
                     className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     srcSet={nftSrcSet(nft.imageUrl)}
-                    sizes="(min-width: 1280px) 300px, (min-width: 640px) 45vw, 100vw"
+                    sizes={sizes}
                 />
                 {nft.rare && <span className="absolute left-0 top-0 bg-secondary px-3 py-1 text-xs font-bold text-ink">RARO</span>}
             </div>

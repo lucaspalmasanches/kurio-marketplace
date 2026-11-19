@@ -1,5 +1,5 @@
 import { api } from "./client"
-import type { Nft, NftListQuery, NftListResponse } from "./contracts"
+import type { Nft, NftListQuery, NftListResponse, ReviewsResponse } from "./contracts"
 
 export async function listNfts(query: NftListQuery, signal?: AbortSignal): Promise<NftListResponse> {
     const { data } = await api.get<NftListResponse>("/nfts", {
@@ -21,5 +21,10 @@ export async function listNfts(query: NftListQuery, signal?: AbortSignal): Promi
 
 export async function getNft(id: string, signal?: AbortSignal): Promise<Nft> {
     const { data } = await api.get<Nft>(`/nfts/${encodeURIComponent(id)}`, { signal })
+    return data
+}
+
+export async function getNftReviews(id: string, signal?: AbortSignal): Promise<ReviewsResponse> {
+    const { data } = await api.get<ReviewsResponse>(`/nfts/${encodeURIComponent(id)}/reviews`, { signal })
     return data
 }

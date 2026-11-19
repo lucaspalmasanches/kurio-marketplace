@@ -265,3 +265,17 @@ export type CreateWalletInput = WalletInput & { kind: WalletKind }
 export interface UpdateAvatarInput {
     avatarUrl: string | null
 }
+
+export interface Review {
+    id: string
+    author: string
+    rating: number
+    comment: string
+    createdAt: string
+}
+
+export interface ReviewsResponse {
+    items: Review[]
+    total: number
+    average: number
+}

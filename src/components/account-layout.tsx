@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router"
-import { LogOut, UserRound, Wallet } from "lucide-react"
+import { LogOut, UserRound, Wallet, Heart } from "lucide-react"
 import type { ReactNode } from "react"
 import { toast } from "sonner"
 import { useLogout } from "@/features/session"
 
-const SOON = ["Atividade", "Lista de interesse", "Ofertas", "Arquivos baixados", "Suporte"]
+const SOON = ["Atividade", "Ofertas", "Arquivos baixados", "Suporte"]
 
 export function AccountLayout({ children }: { children: ReactNode }) {
     const logout = useLogout()
@@ -33,6 +33,12 @@ export function AccountLayout({ children }: { children: ReactNode }) {
                         <Link to="/carteiras" className={item}>
                             <Wallet aria-hidden className="size-4" />
                             Carteiras
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/favoritos" className={item}>
+                            <Heart aria-hidden className="size-4" />
+                            Lista de interesse
                         </Link>
                     </li>
                     {SOON.map((label) => (

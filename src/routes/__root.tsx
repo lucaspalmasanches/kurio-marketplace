@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/header"
 import { EmptyState, ErrorState } from "@/components/states"
 import { Button } from "@/components/ui/button"
 import { RealtimeBridge } from "@/features/realtime-bridge"
+import { MobileNav } from "@/components/layout/mobile-nav"
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
     component: RootLayout,
@@ -15,7 +16,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootLayout() {
     return (
-        <div className="flex min-h-dvh flex-col bg-background text-foreground">
+        <div className="flex min-h-dvh flex-col bg-background text-foreground" pb-20 md:pb-0>
             <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">
                 Pular para o conteúdo
             </a>
@@ -24,6 +25,7 @@ function RootLayout() {
                 <Outlet />
             </main>
             <Footer />
+            <MobileNav />
             <RealtimeBridge />
             <Toaster theme="dark" position="top-center" richColors closeButton />
         </div>

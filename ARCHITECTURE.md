@@ -15,7 +15,7 @@ Erros: `{ code, message, fieldErrors? }`, com os códigos `VALIDATION_ERROR` (40
 | Recurso | Endpoints |
 |---|---|
 | Sessão | `POST /auth/register`, `POST /auth/login`, `GET /auth/session`, `POST /auth/logout` (Bearer token, TTL 60 min) |
-| NFTs | `GET /nfts?q&category&network&minPrice&maxPrice&sort&tab&page&pageSize`, `GET /nfts/:id` |
+| NFTs | `GET /nfts?q&category&network&minPrice&maxPrice&sort&tab&page&pageSize`, `GET /nfts/:id/reviews` |
 | Favoritos | `GET /favorites`, `PUT /favorites/:nftId`, `DELETE /favorites/:nftId` |
 | Carrinho | `GET /cart`, `POST /cart/items`, `PATCH /cart/items/:id`, `DELETE /cart/items/:id`, `POST /cart/merge`. Visitante identificado por `x-cart-id`. |
 | Cotação | `POST /quote` → subtotal, desconto, taxa de rede, total, disponibilidade por linha. O `id` é um hash do conteúdo. |
@@ -101,6 +101,9 @@ Analisar a composição do bundle de mocks (por exemplo, dependências do MSW qu
 - Bordas com o laranja a 30% de opacidade; raio de 5px no desktop.
 - Ações fora do escopo (Criadores, Aprenda, newsletter, login social) aparecem como indisponíveis e não simulam sucesso.
 - Links do Etherscan e hashes de transação são simulados.
+- Barra inferior no mobile: o botão central do Figma (ícone sem rótulo) leva ao catálogo; o coração leva à nova página "Lista de interesse" (`/favoritos`), também acessível pelo menu do perfil.
+- "Mais desta coleção" usa rolagem horizontal com *scroll snap* em vez de carrossel com indicadores.
+- A aba de avaliações mostra a média, o total e as 5 avaliações mais recentes, vindas de `GET /api/nfts/:id/reviews`.
 
 ## Testes E2E (Playwright)
 
@@ -121,6 +124,7 @@ Executados em Chromium, desktop (1440px) e mobile (Pixel 7), sempre a partir de 
 - Perfil (validação, persistência e senha) e carteiras (validação e cadastro)
 - Teclado: atalho para o conteúdo, foco em erros de validação, login sem mouse, foco preso no diálogo e Escape
 - Skeletons com latência lenta e recuperação após falha de servidor
+- Detalhe com abas por teclado, avaliações e ‘Mais desta coleção’; lista de interesse; navegação inferior no mobile
 
 - **Auditoria Lighthouse** com relatórios HTML/JSON versionados.
 - **Interface:** barra de navegação inferior do mobile, seção "Mais desta coleção" e aba de avaliações do detalhe.
