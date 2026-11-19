@@ -11,6 +11,7 @@ node_modules
 test-results/
 dist
 dist-ssr
+.lighthouseci/
 *.local
 
 # Editor directories and files

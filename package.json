@@ -12,7 +12,8 @@
     "test:e2e": "playwright test",
     "test:e2e:report": "playwright show-report",
     "test:visual": "playwright test e2e/visual.spec.ts",
-    "test:visual:update": "playwright test e2e/visual.spec.ts --update-snapshots"
+    "test:visual:update": "playwright test e2e/visual.spec.ts --update-snapshots",
+    "lighthouse": "npm run build && lhci collect --config=lighthouse/lighthouserc.mobile.json && lhci upload --config=lighthouse/lighthouserc.mobile.json && lhci collect --config=lighthouse/lighthouserc.desktop.json && lhci upload --config=lighthouse/lighthouserc.desktop.json && node lighthouse/summarize.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.16.1",
     "@mswjs/socket.io-binding": "^0.2.0",
     "@playwright/test": "^1.65.1",
     "@tanstack/react-query-devtools": "^5.108.0",

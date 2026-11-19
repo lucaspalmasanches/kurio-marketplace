@@ -1,0 +1,80 @@
+[
+  {
+    "url": "http://localhost:4173/",
+    "isRepresentativeRun": false,
+    "htmlPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost--2026_11_19_16_21_23.report.html",
+    "jsonPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost--2026_11_19_16_21_23.report.json",
+    "summary": {
+      "performance": 0.88,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 0.5
+    }
+  },
+  {
+    "url": "http://localhost:4173/",
+    "isRepresentativeRun": false,
+    "htmlPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost--2026_11_19_16_21_54.report.html",
+    "jsonPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost--2026_11_19_16_21_54.report.json",
+    "summary": {
+      "performance": 0.87,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 0.5
+    }
+  },
+  {
+    "url": "http://localhost:4173/nft/emerald-ape-042",
+    "isRepresentativeRun": false,
+    "htmlPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost-nft_emerald_ape_042-2026_11_19_16_22_09.report.html",
+    "jsonPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost-nft_emerald_ape_042-2026_11_19_16_22_09.report.json",
+    "summary": {
+      "performance": 0.87,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 0.5
+    }
+  },
+  {
+    "url": "http://localhost:4173/nft/emerald-ape-042",
+    "isRepresentativeRun": false,
+    "htmlPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost-nft_emerald_ape_042-2026_11_19_16_22_24.report.html",
+    "jsonPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost-nft_emerald_ape_042-2026_11_19_16_22_24.report.json",
+    "summary": {
+      "performance": 0.87,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 0.5
+    }
+  },
+  {
+    "url": "http://localhost:4173/",
+    "isRepresentativeRun": true,
+    "htmlPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost--2026_11_19_16_21_39.report.html",
+    "jsonPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost--2026_11_19_16_21_39.report.json",
+    "summary": {
+      "performance": 0.88,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 0.5
+    }
+  },
+  {
+    "url": "http://localhost:4173/nft/emerald-ape-042",
+    "isRepresentativeRun": true,
+    "htmlPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost-nft_emerald_ape_042-2026_11_19_16_22_39.report.html",
+    "jsonPath": "E:\\Jungle Gaming\\kurio-marketplace\\lighthouse\\reports\\mobile\\localhost-nft_emerald_ape_042-2026_11_19_16_22_39.report.json",
+    "summary": {
+      "performance": 0.82,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 0.5
+    }
+  }
+]
