@@ -72,9 +72,27 @@ O carrinho fica no servidor simulado (por usuário, ou por `x-cart-id` para visi
 
 ### Em andamento
 
-Itens ainda não concluídos. Esta seção é atualizada conforme cada um é entregue.
+Regressão visual com baselines versionadas.
 
-- **Testes E2E:** cobertos hoje, em desktop (1440px) e mobile (Pixel 7): compra completa até o recibo, acesso direto e NFT inexistente, filtros/ordenação/paginação com refresh e histórico, skeletons com latência lenta, timeout após criar o pedido com recuperação por idempotência e preço alterado durante o checkout, perfil (validação, persistência após refresh e senha atual incorreta) e carteiras (validação e cadastro da secundária). Faltam: cadastro, sessão expirada e troca de usuário; favoritos com falha e rollback; carrinho com cupom e persistência após login; pagamento recusado e clique repetido; eventos duplicados ou antigos e retomada após desconexão; navegação por teclado e foco; regressão visual com baselines.
+## Testes E2E (Playwright)
+
+Executados em Chromium, desktop (1440px) e mobile (Pixel 7), sempre a partir de um estado isolado (contexto novo, mocks no cenário padrão). Cobertura:
+
+- Compra completa, do catálogo ao recibo confirmado
+- Acesso direto ao detalhe e NFT inexistente
+- Busca/filtros combinados, ordenação e paginação na URL, com refresh e histórico
+- Cadastro com conflito, logout e troca de usuário com isolamento de dados
+- Sessão expirada com retorno à tela anterior
+- Favoritos com falha na mutation e rollback otimista
+- Carrinho: quantidades, remoção, cupom inválido e válido, persistência após refresh e login
+- Pagamento recusado com clique repetido (um único pedido)
+- Timeout após criar o pedido, com recuperação por idempotência
+- Preço alterado durante o checkout, exigindo nova confirmação
+- Tempo real via Socket.IO: atualização do resumo e descarte de eventos duplicados e antigos
+- Pedido pendente retomado após desconexão e refresh
+- Perfil (validação, persistência e senha) e carteiras (validação e cadastro)
+- Teclado: atalho para o conteúdo, foco em erros de validação, login sem mouse, foco preso no diálogo e Escape
+- Skeletons com latência lenta e recuperação após falha de servidor
 - **Auditoria Lighthouse** com relatórios HTML/JSON versionados.
 - **Interface:** barra de navegação inferior do mobile, seção "Mais desta coleção" e aba de avaliações do detalhe.
 

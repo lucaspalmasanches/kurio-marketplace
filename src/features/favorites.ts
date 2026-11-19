@@ -31,11 +31,15 @@ export function useToggleFavorite() {
             return { previous }
         },
         onError: (_error, _vars, context) => {
-            queryClient.setQueryData(key, context?.previous)
+            if (context?.previous) queryClient.setQueryData(key, context.previous)
             toast.error("Não foi possível atualizar seus favoritos. A alteração foi desfeita.")
         },
         onSuccess: (data) => {
             queryClient.setQueryData(key, data)
+        },
+        // Sempre ressincroniza com a API: cobre o caso em que não havia valor anterior para restaurar.
+        onSettled: () => {
+            void queryClient.invalidateQueries({ queryKey: key })
         },
     })
 }
